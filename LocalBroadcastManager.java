@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 /**
- * this class adapted from VstBroadcastManager to support running receivers on a background thread.
+ * this class adapted from LocalBroadcastManager to support running receivers on a background thread.
  */
-package com.vernier.android.ga.backend;
+package android.support.v4.content;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ import android.util.Log;
  * system.
  * </ul>
  */
-public final class VstBroadcastManager {
+public final class LocalBroadcastManager {
     private static class ReceiverRecord {
         final IntentFilter filter;
         final BroadcastReceiver receiver;
@@ -79,7 +79,7 @@ public final class VstBroadcastManager {
         }
     }
 
-    private static final String TAG = "VstBroadcastManager";
+    private static final String TAG = "LocalBroadcastManager";
     private static final boolean DEBUG = false;
 
     private final Context mAppContext;
@@ -99,19 +99,19 @@ public final class VstBroadcastManager {
 
 
     private static final Object mLock = new Object();
-    private static VstBroadcastManager mInstance;
+    private static LocalBroadcastManager mInstance;
 
-    public static VstBroadcastManager getInstance(Context context) {
+    public static LocalBroadcastManager getInstance(Context context) {
         synchronized (mLock) {
             if (mInstance == null) {
-                mInstance = new VstBroadcastManager(context.getApplicationContext());
+                mInstance = new LocalBroadcastManager(context.getApplicationContext());
             }
 
             return mInstance;
         }
     }
 
-    private VstBroadcastManager(Context context) {
+    private LocalBroadcastManager(Context context) {
         mAppContext = context;
     }
 
@@ -241,7 +241,7 @@ public final class VstBroadcastManager {
                     }
 
                     int match = receiver.filter.match(action, type, scheme, data,
-						      categories, "VstBroadcastManager");
+						      categories, "LocalBroadcastManager");
                     if (match >= 0) {
                         if (debug) Log.v(TAG, "  Filter matched!  match=0x" +
 					 Integer.toHexString(match));
